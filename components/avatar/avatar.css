@@ -1,0 +1,69 @@
+/* ── Avatar ────────────────────────────────────────────────────
+   A person as a circle of initials, outlined like the avatars on
+   the jobs dashboards (PL-JOBS-DASHBOARDS .avatar). The fill is a
+   data color: data-color picks the hue, data-shade the step (00–07).
+   The shade decides the rest:
+     00–04 (light)  black initials, ring two steps darker
+     05–07 (dark)   white initials, ring two steps lighter
+   The split is where the tokens' contrast flips: 04 reads 5.7:1
+   with black but 3.7:1 with white; 05 reads 5.1:1 with white.
+   An empty role (no one assigned) is a dashed neutral circle.
+
+   <span class="avatar-group">
+     <span class="avatar" title="CSR: Kassandra P" data-color="cherry" data-shade="02">KP</span>
+     <span class="avatar is-unassigned" title="Sales: none"></span>
+   </span>
+   ------------------------------------------------------------- */
+.avatar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-50);
+}
+.avatar {
+  flex: none;
+  width: var(--scale-600);
+  height: var(--scale-600);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: var(--fontsize-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  letter-spacing: .02em;
+}
+.avatar.is-unassigned {
+  border-style: dashed;
+  color: var(--text-tertiary);
+}
+
+
+/* ── Data colors ───────────────────────────────────────────────
+   Each hue maps its eight steps to --av-0 … --av-7; the shade
+   then picks fill, ring and ink from them.
+   ------------------------------------------------------------- */
+.avatar[data-color="cherry"] { --av-0: var(--datacolor-cherry-00); --av-1: var(--datacolor-cherry-01); --av-2: var(--datacolor-cherry-02); --av-3: var(--datacolor-cherry-03); --av-4: var(--datacolor-cherry-04); --av-5: var(--datacolor-cherry-05); --av-6: var(--datacolor-cherry-06); --av-7: var(--datacolor-cherry-07); }
+.avatar[data-color="orange"] { --av-0: var(--datacolor-orange-00); --av-1: var(--datacolor-orange-01); --av-2: var(--datacolor-orange-02); --av-3: var(--datacolor-orange-03); --av-4: var(--datacolor-orange-04); --av-5: var(--datacolor-orange-05); --av-6: var(--datacolor-orange-06); --av-7: var(--datacolor-orange-07); }
+.avatar[data-color="lemon"] { --av-0: var(--datacolor-lemon-00); --av-1: var(--datacolor-lemon-01); --av-2: var(--datacolor-lemon-02); --av-3: var(--datacolor-lemon-03); --av-4: var(--datacolor-lemon-04); --av-5: var(--datacolor-lemon-05); --av-6: var(--datacolor-lemon-06); --av-7: var(--datacolor-lemon-07); }
+.avatar[data-color="mint"] { --av-0: var(--datacolor-mint-00); --av-1: var(--datacolor-mint-01); --av-2: var(--datacolor-mint-02); --av-3: var(--datacolor-mint-03); --av-4: var(--datacolor-mint-04); --av-5: var(--datacolor-mint-05); --av-6: var(--datacolor-mint-06); --av-7: var(--datacolor-mint-07); }
+.avatar[data-color="blueberry"] { --av-0: var(--datacolor-blueberry-00); --av-1: var(--datacolor-blueberry-01); --av-2: var(--datacolor-blueberry-02); --av-3: var(--datacolor-blueberry-03); --av-4: var(--datacolor-blueberry-04); --av-5: var(--datacolor-blueberry-05); --av-6: var(--datacolor-blueberry-06); --av-7: var(--datacolor-blueberry-07); }
+.avatar[data-color="grape"] { --av-0: var(--datacolor-grape-00); --av-1: var(--datacolor-grape-01); --av-2: var(--datacolor-grape-02); --av-3: var(--datacolor-grape-03); --av-4: var(--datacolor-grape-04); --av-5: var(--datacolor-grape-05); --av-6: var(--datacolor-grape-06); --av-7: var(--datacolor-grape-07); }
+
+.avatar[data-color][data-shade] {
+  background: var(--avatar-fill);
+  border-color: var(--avatar-ring);
+  color: var(--avatar-ink);
+}
+/* Light shades: black initials, darker ring. */
+.avatar[data-shade="00"] { --avatar-fill: var(--av-0); --avatar-ring: var(--av-2); --avatar-ink: var(--color-black); }
+.avatar[data-shade="01"] { --avatar-fill: var(--av-1); --avatar-ring: var(--av-3); --avatar-ink: var(--color-black); }
+.avatar[data-shade="02"] { --avatar-fill: var(--av-2); --avatar-ring: var(--av-4); --avatar-ink: var(--color-black); }
+.avatar[data-shade="03"] { --avatar-fill: var(--av-3); --avatar-ring: var(--av-5); --avatar-ink: var(--color-black); }
+.avatar[data-shade="04"] { --avatar-fill: var(--av-4); --avatar-ring: var(--av-6); --avatar-ink: var(--color-black); }
+/* Dark shades: white initials, lighter ring. */
+.avatar[data-shade="05"] { --avatar-fill: var(--av-5); --avatar-ring: var(--av-3); --avatar-ink: var(--color-white); }
+.avatar[data-shade="06"] { --avatar-fill: var(--av-6); --avatar-ring: var(--av-4); --avatar-ink: var(--color-white); }
+.avatar[data-shade="07"] { --avatar-fill: var(--av-7); --avatar-ring: var(--av-5); --avatar-ink: var(--color-white); }

@@ -1,0 +1,442 @@
+/* ============================================================
+   Notifications prototype — page + panel styles
+   Depends on: shared/css/design-tokens.css,
+               components/sidebar/sidebar.css,
+               components/avatar/avatar.css
+
+   Local overrides (not in PL-SHARED — for devs to build into
+   the component rather than add as new tokens):
+     --notif-unread   unread dot colour  → --interactive-default
+     .notif-filter    compact pill toggle (the shared .tab-btn is
+                      too heavy for a 360px panel)
+     .avatar--md      32px avatar size modifier
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  font-family: var(--font-family-primary);
+  color: var(--text-primary);
+  background: var(--bg-page);
+}
+
+/* ============================================================
+   PAGE SHELL (placeholder content behind the panel)
+   ============================================================ */
+.main {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--bg-page);
+}
+
+.topbar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+  padding: var(--scale-400) var(--scale-800);
+}
+
+.topbar__title {
+  max-width: var(--container-workspace);
+  margin: auto;
+}
+
+.page-body {
+  max-width: var(--container-workspace);
+  margin: var(--scale-600) auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--scale-400);
+}
+
+.placeholder-card {
+  height: 140px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-tertiary);
+  border-radius: var(--border-radius-md);
+}
+
+.placeholder-card--wide {
+  grid-column: span 3;
+  height: 280px;
+}
+
+/* ============================================================
+   NOTIFICATIONS PANEL — popover docked to the sidebar edge
+   ============================================================ */
+.notif-panel {
+  --notif-unread: var(--interactive-default);
+
+  /* Reset UA popover defaults, then dock beside the sidebar */
+  position: fixed;
+  inset: 0 auto 0 var(--sidebar-w);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-right: 1px solid var(--border-subtle);
+  width: var(--container-sidebar);
+  height: 100vh;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.notif-panel:popover-open {
+  display: flex;
+}
+
+.notif-panel::backdrop {
+  background: var(--overlay-panel);
+}
+
+/* ── Panel header ────────────────────────────────────────── */
+.notif-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--scale-400) var(--scale-400) var(--scale-200);
+}
+
+.notif-panel__title {
+  font-size: var(--fontsize-heading-h6);
+  line-height: var(--line-height-heading-h6);
+}
+
+/* ── Toolbar: filters + mark all as read ─────────────────── */
+.notif-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-200);
+  padding: var(--scale-200) var(--scale-400);
+  border-bottom: 1px solid var(--border-tertiary);
+}
+
+.notif-filters {
+  display: flex;
+  gap: var(--scale-100);
+}
+
+.notif-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100);
+  padding: var(--scale-100) var(--scale-300);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-full);
+  background: none;
+  color: var(--text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--fontsize-body-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+.notif-filter:hover {
+  background: var(--bg-muted);
+  border-color: var(--border-subtle);
+}
+
+.notif-filter[aria-pressed="true"] {
+  background: var(--interactive-bg-subtle);
+  border-color: var(--interactive-default);
+  color: var(--text-interactive);
+}
+
+.notif-filter__count {
+  font-weight: var(--font-weight-book);
+}
+
+.notif-mark-all {
+  padding: var(--scale-100) var(--scale-200);
+  color: var(--text-interactive);
+}
+
+/* ── Scrollable list ─────────────────────────────────────── */
+.notif-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.notif-group__label {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--scale-300) var(--scale-400) var(--scale-100);
+  background: var(--bg-surface);
+  color: var(--text-tertiary);
+  font-size: var(--fontsize-label);
+  line-height: var(--line-height-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.notif-group__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Unread filter (driven by data-filter on the list) ───── */
+.notif-list[data-filter="unread"] .notif-item:not(.is-unread) {
+  display: none;
+}
+
+.notif-list[data-filter="unread"] .notif-group:not(:has(.notif-item.is-unread)) {
+  display: none;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.notif-empty {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--scale-200);
+  padding: var(--scale-1600) var(--scale-600);
+  text-align: center;
+  color: var(--text-tertiary);
+}
+
+.notif-empty i {
+  font-size: var(--fontsize-heading-h5);
+}
+
+.notif-list[data-filter="unread"]:not(:has(.notif-item.is-unread)) .notif-empty {
+  display: flex;
+}
+
+/* ============================================================
+   NOTIFICATION ITEM
+   source · what happened · where · unread
+   content preview
+   relative time · timestamp          action
+   ============================================================ */
+.notif-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: var(--scale-300);
+  row-gap: var(--scale-200);
+  padding: var(--scale-300) var(--scale-400);
+  border-bottom: 1px solid var(--border-tertiary);
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.notif-item:hover {
+  background: var(--bg-muted);
+}
+
+.notif-item__avatar {
+  grid-row: 1;
+  align-self: start;
+}
+
+.notif-item__summary,
+.notif-item__preview,
+.notif-item__footer {
+  grid-column: 2;
+}
+
+/* Summary line */
+.notif-item__summary {
+  margin: 0;
+  font-size: var(--fontsize-body-sm);
+  line-height: var(--line-height-body-sm);
+  color: var(--text-secondary);
+}
+
+.notif-item__source {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.notif-item__where {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100);
+  padding: 0 var(--scale-200);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.notif-item__where:hover {
+  border-color: var(--interactive-default);
+  color: var(--text-interactive);
+}
+
+.notif-item__where i {
+  font-size: var(--fontsize-label);
+  color: var(--text-tertiary);
+}
+
+/* Unread indicator — a button so a single item can be toggled */
+.notif-item__unread {
+  grid-column: 3;
+  grid-row: 1;
+  width: var(--scale-600);
+  height: var(--scale-600);
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius-full);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-item__unread::before {
+  content: "";
+  width: var(--scale-200);
+  height: var(--scale-200);
+  border-radius: var(--border-radius-full);
+  border: 1.5px solid transparent;
+}
+
+.notif-item.is-unread .notif-item__unread::before {
+  background: var(--notif-unread);
+}
+
+.notif-item:not(.is-unread):hover .notif-item__unread::before {
+  border-color: var(--border-default);
+}
+
+.notif-item__unread:hover {
+  background: var(--bg-subtle);
+}
+
+/* Content preview */
+.notif-item__preview {
+  margin: 0;
+  padding: var(--scale-200) var(--scale-300);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--border-radius-md);
+  font-size: var(--fontsize-body-sm);
+  line-height: var(--line-height-body-sm);
+  color: var(--text-primary);
+}
+
+/* Clamp on the inner text so the box padding doesn't show a third line */
+.notif-item__preview-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* File preview variant */
+.notif-item__file {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-300);
+}
+
+.notif-item__file-icon {
+  font-size: var(--fontsize-heading-h6);
+  color: var(--text-tertiary);
+}
+
+.notif-item__file-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-item__file-name {
+  display: block;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notif-item__file-size {
+  display: block;
+  color: var(--text-tertiary);
+  font-size: var(--fontsize-label);
+  line-height: var(--line-height-label);
+}
+
+.notif-item__file .icon-btn {
+  flex-shrink: 0;
+}
+
+/* Footer: time + actions */
+.notif-item__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-200);
+  flex-wrap: wrap;
+}
+
+.notif-item__time {
+  font-size: var(--fontsize-label);
+  line-height: var(--line-height-label);
+  color: var(--text-tertiary);
+}
+
+.notif-item__time-sep {
+  margin: 0 var(--scale-100);
+}
+
+.notif-item__actions {
+  display: flex;
+  gap: var(--scale-200);
+}
+
+.notif-item__resolved {
+  font-size: var(--fontsize-body-sm);
+  color: var(--text-tertiary);
+  display: none;
+}
+
+.notif-item[data-resolution] .notif-item__actions {
+  display: none;
+}
+
+.notif-item[data-resolution] .notif-item__resolved {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100);
+}
+
+/* ── Avatar additions (local) ────────────────────────────── */
+.avatar--md {
+  width: var(--scale-800);
+  height: var(--scale-800);
+  font-size: var(--fontsize-body-sm);
+}
+
+.avatar--system {
+  background: var(--bg-inverse);
+  border-color: var(--bg-inverse);
+  color: var(--text-on-dark);
+}
+/* ============================================================
+   SMALL SCREENS — matches the max-width: 1024px breakpoint in
+   design-tokens.css where --container-sidebar drops to
+   --container-sidebar-sm (280px). Media queries can't read custom
+   properties, so the 1024px is repeated here; keep them in sync.
+   ============================================================ */
+@media (max-width: 1024px) {
+  .notif-item {
+    column-gap: 0;
+  }
+
+  .notif-item__avatar {
+    display: none;
+  }
+}

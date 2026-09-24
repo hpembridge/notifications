@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications</title>
+    <script src="https://kit.fontawesome.com/da08280601.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="shared/css/design-tokens.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=optional" rel="stylesheet" />
+    <link rel="stylesheet" href="components/sidebar/sidebar.css" />
+    <link rel="stylesheet" href="components/avatar/avatar.css" />
+    <link rel="stylesheet" href="notifications.css" />
+  </head>
+  <body data-theme="titanium">
+
+    <!-- ═══════════════ Sidebar (local copy) ═══════════════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-profile">
+        <div class="sb-profile-text">
+          <div class="sb-name">Healey Pembridge</div>
+          <div class="sb-role">digital process engineer</div>
+        </div>
+        <div class="sb-profile-actions">
+          <!-- NEW: Notifications bell — opens #notif-panel natively via popovertarget -->
+          <button class="sb-icon-btn sb-bell" popovertarget="notif-panel" aria-label="Notifications, 4 unread" title="Notifications">
+            <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            <span class="sb-bell__badge" aria-hidden="true">4</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sb-hr"></div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-item active"><i class="fa-regular fa-house"></i><span>Dashboard</span></div>
+        <div class="nav-item"><i class="fa-regular fa-folder"></i><span>Jobs</span></div>
+        <div class="nav-item"><i class="fa-regular fa-user"></i><span>Customer</span></div>
+        <div class="nav-item"><i class="fa-regular fa-pallet-boxes"></i><span>Inventory</span></div>
+        <div class="nav-item"><i class="fa-regular fa-chart-mixed"></i><span>Reports</span></div>
+        <div class="sb-hr sb-hr--nav"></div>
+        <div class="nav-lbl">Tools</div>
+        <div class="nav-sub">Time Tracker</div>
+        <div class="nav-sub">Interior Board Requests</div>
+        <div class="nav-sub">Bindery Scheduler</div>
+        <div class="nav-sub">PIF Board</div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="nav-item"><i class="fa-regular fa-users"></i><span>Manage Users</span></div>
+        <div class="nav-item"><i class="fa-regular fa-left-from-bracket"></i><span>Logout</span></div>
+        <div class="nav-item"><i class="fa-regular fa-gear"></i><span>Settings</span></div>
+        <div class="nav-item"><i class="fa-regular fa-circle-question"></i><span>Help</span></div>
+      </div>
+    </aside>
+    <!-- ═══════════════ /Sidebar ═══════════════ -->
+
+
+    <!-- ═══════════════ Page shell (placeholder) ═══════════════ -->
+    <main class="main">
+      <div class="topbar">
+        <h1 class="topbar__title type-heading-h6">Dashboard</h1>
+      </div>
+      <div class="page-body">
+        <div class="placeholder-card"></div>
+        <div class="placeholder-card"></div>
+        <div class="placeholder-card"></div>
+        <div class="placeholder-card placeholder-card--wide"></div>
+      </div>
+    </main>
+    <!-- ═══════════════ /Page shell ═══════════════ -->
+
+
+    <!-- ═══════════════ Notifications Panel ═══════════════ -->
+    <section class="notif-panel" id="notif-panel" popover aria-labelledby="notif-panel-title">
+
+      <!-- Panel Header -->
+      <header class="notif-panel__header">
+        <h2 class="notif-panel__title" id="notif-panel-title">Notifications</h2>
+        <button class="icon-btn" popovertarget="notif-panel" popovertargetaction="hide" aria-label="Close notifications">
+          <i class="fa-regular fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <!-- Toolbar: All / Unread + Mark all as read -->
+      <div class="notif-toolbar">
+        <div class="notif-filters" role="group" aria-label="Filter notifications">
+          <button class="notif-filter" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="notif-filter" type="button" data-filter="unread" aria-pressed="false">
+            Unread <span class="notif-filter__count" data-unread-count>(4)</span>
+          </button>
+        </div>
+        <button class="btn-ghost notif-mark-all" type="button">
+          <i class="fa-regular fa-check-double" aria-hidden="true"></i> Mark all as read
+        </button>
+      </div>
+
+      <!-- Notification List -->
+      <div class="notif-list" data-filter="all">
+
+        <!-- Group: Today -->
+        <section class="notif-group">
+          <h3 class="notif-group__label">Today</h3>
+          <ul class="notif-group__items">
+
+            <!-- Notification Item: comment -->
+            <li class="notif-item is-unread">
+              <span class="notif-item__avatar avatar avatar--md" data-color="blueberry" data-shade="02">TH</span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Tim Hubman</span> commented in
+                <a class="notif-item__where" href="#">232323 Scheduling Request <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as read"></button>
+              <p class="notif-item__preview"><span class="notif-item__preview-text">Customer moved the install to Friday. Can bindery pull this forward a day, or do we need to split the shipment?</span></p>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">18 minutes ago<span class="notif-item__time-sep">•</span>09/24/26 at 3:42 PM</span>
+              </div>
+            </li>
+
+            <!-- Notification Item: request with actions -->
+            <li class="notif-item is-unread">
+              <span class="notif-item__avatar avatar avatar--md" data-color="mint" data-shade="02">MT</span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Marcus Tate</span> requested a rush on
+                <a class="notif-item__where" href="#">231877 Banquet Menus <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as read"></button>
+              <p class="notif-item__preview"><span class="notif-item__preview-text">Needs to ship by 10/1 for the event. Customer approved the rush fee.</span></p>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">1 hour ago<span class="notif-item__time-sep">•</span>09/24/26 at 3:01 PM</span>
+                <div class="notif-item__actions">
+                  <button class="btn-secondary" type="button" data-resolve="declined">Decline</button>
+                  <button class="btn-primary" type="button" data-resolve="accepted">Accept</button>
+                </div>
+                <span class="notif-item__resolved"><i class="fa-regular fa-check" aria-hidden="true"></i> <span data-resolved-text>Accepted</span></span>
+              </div>
+            </li>
+
+            <!-- Notification Item: customer approval (no preview) -->
+            <li class="notif-item is-unread">
+              <span class="notif-item__avatar avatar avatar--md" data-color="grape" data-shade="02">JA</span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Jen Alvarez</span> approved proof v3 on
+                <a class="notif-item__where" href="#">232104 Cocktail Menu <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as read"></button>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">3 hours ago<span class="notif-item__time-sep">•</span>09/24/26 at 12:47 PM</span>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+
+        <!-- Group: Yesterday -->
+        <section class="notif-group">
+          <h3 class="notif-group__label">Yesterday</h3>
+          <ul class="notif-group__items">
+
+            <!-- Notification Item: file upload -->
+            <li class="notif-item is-unread">
+              <span class="notif-item__avatar avatar avatar--md" data-color="blueberry" data-shade="02">TH</span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Tim Hubman</span> added a file to
+                <a class="notif-item__where" href="#">232323 Scheduling Request <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as read"></button>
+              <div class="notif-item__preview notif-item__file">
+                <i class="notif-item__file-icon fa-regular fa-file-pdf" aria-hidden="true"></i>
+                <span class="notif-item__file-text">
+                  <span class="notif-item__file-name" title="Scheduling_Request_rev2.pdf">Scheduling_Request_rev2.pdf</span>
+                  <span class="notif-item__file-size">1.2 MB</span>
+                </span>
+                <button class="icon-btn" type="button" aria-label="Download Scheduling_Request_rev2.pdf">
+                  <i class="fa-regular fa-arrow-down-to-line" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">Yesterday<span class="notif-item__time-sep">•</span>09/23/26 at 4:15 PM</span>
+              </div>
+            </li>
+
+            <!-- Notification Item: assignment -->
+            <li class="notif-item">
+              <span class="notif-item__avatar avatar avatar--md" data-color="orange" data-shade="02">DR</span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Dana Reyes</span> assigned you to
+                <a class="notif-item__where" href="#">232090 LTO Table Tents <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as unread"></button>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">Yesterday<span class="notif-item__time-sep">•</span>09/23/26 at 10:30 AM</span>
+              </div>
+            </li>
+
+            <!-- Notification Item: system status change -->
+            <li class="notif-item">
+              <span class="notif-item__avatar avatar avatar--md avatar--system"><i class="fa-regular fa-gear" aria-hidden="true"></i></span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Platinum</span> moved
+                <a class="notif-item__where" href="#">231950 Directory Pages <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+                to In Production
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as unread"></button>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">Yesterday<span class="notif-item__time-sep">•</span>09/23/26 at 8:02 AM</span>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+
+        <!-- Group: Earlier -->
+        <section class="notif-group">
+          <h3 class="notif-group__label">Earlier</h3>
+          <ul class="notif-group__items">
+
+            <!-- Notification Item: mention -->
+            <li class="notif-item">
+              <span class="notif-item__avatar avatar avatar--md" data-color="cherry" data-shade="02">MS</span>
+              <p class="notif-item__summary">
+                <span class="notif-item__source">Mike Sorensen</span> mentioned you in
+                <a class="notif-item__where" href="#">231802 Resort Directory <i class="fa-regular fa-arrow-up-right" aria-hidden="true"></i></a>
+              </p>
+              <button class="notif-item__unread" type="button" aria-label="Mark as unread"></button>
+              <p class="notif-item__preview"><span class="notif-item__preview-text">@Healey can you check the accessible PDF export on this one before it goes to the client?</span></p>
+              <div class="notif-item__footer">
+                <span class="notif-item__time">3 days ago<span class="notif-item__time-sep">•</span>09/21/26 at 2:20 PM</span>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+
+        <!-- Empty state (shown by CSS when Unread is selected and nothing is unread) -->
+        <div class="notif-empty">
+          <i class="fa-regular fa-bell-slash" aria-hidden="true"></i>
+          <p class="type-body-md">You're all caught up.</p>
+        </div>
+
+      </div>
+      <!-- /Notification List -->
+
+    </section>
+    <!-- ═══════════════ /Notifications Panel ═══════════════ -->
+
+    <script src="notifications.js"></script>
+  </body>
+</html>
+
+<!--
+  ═══════════════ Implementation notes ═══════════════
+
+  Components
+  • Sidebar            → <aside class="sidebar"> + components/sidebar/sidebar.css
+                          (local copy of shared/components/sidebar-component.js)
+  • NotificationsBell  → .sb-bell in .sidebar-profile + .sb-bell / .sb-bell__badge styles
+  • NotificationsPanel → <section class="notif-panel" popover> + .notif-panel styles
+  • NotificationFilters→ .notif-toolbar / .notif-filter / .notif-mark-all
+  • NotificationGroup  → .notif-group (Today / Yesterday / Earlier) — @for over groups
+  • NotificationItem   → li.notif-item — @for over items; parts:
+                          __avatar (source), __summary (what happened + __where link),
+                          __unread (dot), __preview (text or __file variant),
+                          __footer (__time relative • timestamp, __actions)
+  • Avatar             → components/avatar/avatar.css (copied from Rollout Manager)
+                          + local .avatar--md / .avatar--system
+
+  Native (no JS): bell + close button open/close the panel via popover /
+  popovertarget; light-dismiss on outside click and Esc.
+
+  Simulated in notifications.js (→ Angular state/events)
+  • All / Unread filter        → filter signal; list[data-filter]
+  • Mark all as read           → service call + set all read
+  • Click item / dot           → mark read / toggle read
+  • Accept / Decline           → request action; item[data-resolution]
+  • Unread count (badge, tab)  → computed from items
+-->
